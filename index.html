@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملخص مقدمة في تكنولوجيا المعلومات — الفصل 1 و 2 + المراجعة</title>
+<style>
+/* ============ 1. المتغيرات والأساسيات ============ */
+:root{
+  --bg:#060a16; --bg2:#0b1226;
+  --card:rgba(255,255,255,.055);
+  --card2:rgba(255,255,255,.028);
+  --line:rgba(255,255,255,.11);
+  --txt:#e9eefb; --mut:#96a4c4;
+  --c1:#22d3ee;  /* الفصل الأول - سماوي */
+  --c2:#a78bfa;  /* الفصل الثاني - بنفسجي */
+  --c3:#fbbf24;  /* المراجعة - ذهبي */
+  --pink:#f472b6;
+  --ok:#34d399; --no:#fb7185;
+  --r:22px;
+  --sh:0 18px 50px -22px rgba(0,0,0,.85);
+}
+body.light{
+  --bg:#eef3fb; --bg2:#ffffff;
+  --card:rgba(255,255,255,.92);
+  --card2:rgba(255,255,255,.72);
+  --line:rgba(12,25,70,.13);
+  --txt:#0d1830; --mut:#516184;
+  --sh:0 16px 40px -24px rgba(20,40,90,.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Segoe UI","Tahoma","Cairo","Helvetica Neue",Arial,sans-serif;
+  background:var(--bg); color:var(--txt);
+  line-height:1.85; -webkit-font-smoothing:antialiased;
+  overflow-x:hidden; padding-bottom:70px;
+}
+body.light{background:linear-gradient(180deg,#eef3fb,#e4ecf8)}
+/* ============ 2. الخلفية المتحركة ============ */
+.orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(75px);opacity:.5;animation:float 20s ease-in-out infinite}
+.o1{width:420px;height:420px;background:var(--c1);top:-120px;right:-90px;opacity:.22}
+.o2{width:380px;height:380px;background:var(--c2);top:38%;left:-140px;opacity:.2;animation-delay:-6s}
+.o3{width:340px;height:340px;background:var(--c3);bottom:-110px;right:22%;opacity:.13;animation-delay:-12s}
+.o4{width:260px;height:260px;background:var(--pink);top:70%;right:-80px;opacity:.14;animation-delay:-9s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(28px,-34px) scale(1.09)}66%{transform:translate(-24px,26px) scale(.94)}}
+/* فقاعات صاعدة */
+.bub{position:fixed;bottom:-40px;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.75),rgba(120,200,255,.12));
+  z-index:0;pointer-events:none;animation:rise linear infinite;opacity:.5}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}12%{opacity:.65}100%{transform:translateY(-108vh) scale(1.15);opacity:0}}
+/* ============ 3. شريط التقدم ============ */
+.pwrap{position:fixed;top:0;right:0;left:0;height:4px;background:rgba(255,255,255,.06);z-index:80}
+.bar{height:100%;width:0;background:linear-gradient(90deg,var(--c1),var(--c2),var(--c3));box-shadow:0 0 14px var(--c2);transition:width .12s linear}
+/* ============ 4. الهيدر ============ */
+.wrap{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:0 18px}
+.hero{
+  margin:26px 0 18px;padding:42px 34px;border-radius:30px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(167,139,250,.16) 48%,rgba(251,191,36,.13));
+  border:1px solid var(--line);box-shadow:var(--sh);backdrop-filter:blur(14px);
+}
+.hero::after{content:"";position:absolute;top:-60%;left:-10%;width:60%;height:220%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);transform:rotate(18deg);animation:shine 7s ease-in-out infinite}
+@keyframes shine{0%{left:-40%}55%{left:120%}100%{left:120%}}
+.pill{display:inline-block;padding:6px 16px;border-radius:999px;font-size:.78rem;font-weight:700;letter-spacing:.4px;
+  background:rgba(255,255,255,.1);border:1px solid var(--line);color:var(--mut);margin-bottom:14px}
+h1{font-size:clamp(1.5rem,4.1vw,2.5rem);line-height:1.4;font-weight:800;
+  background:linear-gradient(90deg,#fff,var(--c1) 35%,var(--c2) 68%,var(--c3));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+body.light h1{background:linear-gradient(90deg,#0d1830,var(--c1),var(--c2),#b8860b);-webkit-background-clip:text;background-clip:text}
+.sub{color:var(--mut);font-size:1rem;max-width:760px}
+.hstats{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.hstat{padding:9px 16px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line);font-size:.85rem;font-weight:600}
+body.light .hstat{background:rgba(255,255,255,.75)}
+/* ============ 5. التبويبات ============ */
+.tabs{position:sticky;top:8px;z-index:60;display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  padding:10px;margin:0 0 22px;border-radius:20px;background:rgba(8,13,28,.82);border:1px solid var(--line);backdrop-filter:blur(16px);box-shadow:var(--sh)}
+body.light .tabs{background:rgba(255,255,255,.9)}
+.tab{padding:11px 20px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--mut);
+  font-family:inherit;font-size:.93rem;font-weight:700;cursor:pointer;transition:.25s;white-space:nowrap}
+.tab:hover{color:var(--txt);background:rgba(255,255,255,.07)}
+.tab.on{color:#050914;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 8px 22px -10px var(--c2)}
+.tab[data-t="rev"].on{background:linear-gradient(135deg,var(--c3),var(--pink));box-shadow:0 8px 22px -10px var(--c3)}
+.ico-btn{width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--txt);
+  font-size:1.05rem;cursor:pointer;transition:.25s;display:grid;place-items:center;font-family:inherit}
+.ico-btn:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+/* ============ 6. الألواح ============ */
+.panel{display:none;animation:pop .45s ease}
+.panel.on{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px 26px;margin-bottom:20px;
+  box-shadow:var(--sh);backdrop-filter:blur(11px);position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;top:0;right:0;width:5px;height:100%;background:var(--acc,var(--c1))}
+.card.c1{--acc:var(--c1)} .card.c2{--acc:var(--c2)} .card.c3{--acc:var(--c3)} .card.cp{--acc:var(--pink)}
+.card h2{font-size:1.22rem;font-weight:800;display:flex;align-items:center;gap:12px;margin-bottom:6px;flex-wrap:wrap}
+.num{flex:0 0 auto;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1rem;font-weight:800;color:#050914;
+  background:linear-gradient(135deg,var(--acc,var(--c1)),rgba(255,255,255,.55));box-shadow:0 8px 18px -8px var(--acc,var(--c1))}
+.card h3{font-size:1.02rem;font-weight:700;margin:18px 0 10px;color:var(--acc,var(--c1));display:flex;align-items:center;gap:8px}
+.card h3::before{content:"";width:12px;height:12px;border-radius:4px;background:var(--acc,var(--c1));transform:rotate(45deg);flex:0 0 auto}
+.lead{color:var(--mut);font-size:.95rem;margin-bottom:8px}
+p{margin-bottom:9px}
+b,strong{color:#fff;font-weight:700}
+body.light b,body.light strong{color:#08122c}
+.term{color:var(--c1);font-weight:700;direction:ltr;display:inline-block;font-family:"Segoe UI",Consolas,sans-serif}
+.term.v{color:var(--c2)} .term.g{color:var(--c3)} .term.p{color:var(--pink)}
+ul{list-style:none;padding:0;margin:8px 0}
+li{padding:7px 26px 7px 0;position:relative;font-size:.95rem}
+li::before{content:"";position:absolute;right:8px;top:16px;width:8px;height:8px;border-radius:50%;
+  background:var(--acc,var(--c1));box-shadow:0 0 10px var(--acc,var(--c1))}
+li ul{margin:4px 0}
+li ul li::before{width:6px;height:6px;background:var(--mut);box-shadow:none}
+.grid{display:grid;gap:14px;margin-top:8px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(195px,1fr))}
+.g5{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.box{padding:16px 18px;border-radius:16px;background:var(--card2);border:1px solid var(--line);transition:.28s}
+.box:hover{transform:translateY(-4px);border-color:var(--acc,var(--c1));box-shadow:0 16px 34px -18px var(--acc,var(--c1))}
+.box .bt{font-weight:800;font-size:.97rem;margin-bottom:6px;color:var(--acc,var(--c1))}
+.box .bd{font-size:.88rem;color:var(--mut)}
+.chiprow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.chip{padding:7px 14px;border-radius:999px;font-size:.84rem;font-weight:700;border:1px solid var(--line);
+  background:rgba(255,255,255,.06);transition:.22s;cursor:default}
+.chip:hover{transform:translateY(-3px) scale(1.04);border-color:var(--acc,var(--c1))}
+.chip.k{background:linear-gradient(135deg,rgba(34,211,238,.22),rgba(34,211,238,.06));border-color:rgba(34,211,238,.4)}
+.chip.v{background:linear-gradient(135deg,rgba(167,139,250,.22),rgba(167,139,250,.06));border-color:rgba(167,139,250,.4)}
+.chip.g{background:linear-gradient(135deg,rgba(251,191,36,.22),rgba(251,191,36,.06));border-color:rgba(251,191,36,.42)}
+.chip.p{background:linear-gradient(135deg,rgba(244,114,182,.2),rgba(244,114,182,.05));border-color:rgba(244,114,182,.4)}
+.chip.ok{background:linear-gradient(135deg,rgba(52,211,153,.22),rgba(52,211,153,.05));border-color:rgba(52,211,153,.42)}
+.tip{margin:14px 0;padding:14px 18px;border-radius:15px;font-size:.9rem;
+  background:linear-gradient(135deg,rgba(251,191,36,.14),rgba(251,191,36,.03));border:1px solid rgba(251,191,36,.32)}
+.tip::before{content:"تذكّر";display:inline-block;font-weight:800;color:var(--c3);margin-left:8px;
+  padding:1px 10px;border-radius:8px;background:rgba(251,191,36,.16);font-size:.76rem}
+.warn{background:linear-gradient(135deg,rgba(251,113,133,.14),rgba(251,113,133,.03));border-color:rgba(251,113,133,.34)}
+.warn::before{content:"انتبه";color:var(--no);background:rgba(251,113,133,.16)}
+/* ============ 7. الجداول ============ */
+.tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:12px 0;border-radius:15px;overflow:hidden;border:1px solid var(--line)}
+.tbl th{background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(167,139,250,.16));padding:12px 14px;text-align:right;font-weight:800;font-size:.87rem}
+.tbl td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+.tbl tr:nth-child(even) td{background:rgba(255,255,255,.026)}
+.tbl tr:hover td{background:rgba(34,211,238,.07)}
+/* ============ 8. المخططات ============ */
+.svgbox{width:100%;overflow-x:auto;margin:14px 0;padding:8px 0}
+.svgbox svg{width:100%;height:auto;min-width:330px;display:block}
+.svgtx{fill:currentColor;font-family:"Segoe UI",Tahoma,sans-serif;font-weight:700;direction:rtl}
+.svgm{fill:var(--mut);font-family:"Segoe UI",Tahoma,sans-serif;font-size:12px;direction:rtl}
+.node{fill:rgba(255,255,255,.07);stroke:var(--line);stroke-width:1.4}
+body.light .node{fill:rgba(255,255,255,.9)}
+.flow{stroke:var(--mut);stroke-width:1.6;fill:none;opacity:.65}
+/* ============ 9. الشجرة الهرمية ============ */
+.tree{margin:14px 0;display:grid;gap:12px}
+.tree-row{display:grid;gap:12px}
+.root{padding:14px 20px;border-radius:16px;text-align:center;font-weight:800;
+  background:linear-gradient(135deg,rgba(34,211,238,.28),rgba(167,139,250,.2));border:1px solid var(--line)}
+.branch{padding:14px 16px;border-radius:16px;background:var(--card2);border:1px solid var(--line);border-top:3px solid var(--acc,var(--c1))}
+.branch .bt{font-weight:800;margin-bottom:8px;color:var(--acc,var(--c1))}
+.leaf{padding:8px 13px;border-radius:11px;background:rgba(255,255,255,.05);font-size:.85rem;border:1px solid var(--line);margin-bottom:6px}
+.leaf:last-child{margin-bottom:0}
+/* ============ 10. بطاقات التعريف القابلة للقلب ============ */
+.flipgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(225px,1fr))}
+.flip{perspective:1100px;height:158px;cursor:pointer}
+.flipin{position:relative;width:100%;height:100%;transition:transform .7s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+.flip.f{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:16px;display:grid;place-items:center;text-align:center;
+  border:1px solid var(--line);background:var(--card2)}
+.face.f1{background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(167,139,250,.12))}
+.face.f1 .t{font-size:1.05rem;font-weight:800}
+.face.f2{transform:rotateY(180deg);background:linear-gradient(135deg,rgba(52,211,153,.16),rgba(251,191,36,.1));font-size:.85rem}
+.face .hint{position:absolute;bottom:9px;font-size:.68rem;color:var(--mut)}
+/* ============ 11. الاختبار ============ */
+.quizhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.score{padding:9px 18px;border-radius:14px;font-weight:800;font-size:.9rem;
+  background:linear-gradient(135deg,rgba(52,211,153,.2),rgba(52,211,153,.05));border:1px solid rgba(52,211,153,.4)}
+.q{padding:16px 18px;border-radius:17px;background:var(--card2);border:1px solid var(--line);margin-bottom:13px;transition:.3s}
+.q.ok{border-color:rgba(52,211,153,.6);background:linear-gradient(135deg,rgba(52,211,153,.1),transparent)}
+.q.no{border-color:rgba(251,113,133,.6);background:linear-gradient(135deg,rgba(251,113,133,.1),transparent)}
+.qt{font-weight:700;font-size:.96rem;margin-bottom:11px}
+.opts{display:flex;flex-wrap:wrap;gap:9px}
+.opt{padding:9px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--txt);
+  font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:.22s;text-align:right}
+.opt:hover:not(:disabled){background:rgba(255,255,255,.13);transform:translateY(-2px);border-color:var(--c1)}
+.opt:disabled{cursor:default;opacity:.72}
+.opt.good{background:linear-gradient(135deg,rgba(52,211,153,.34),rgba(52,211,153,.12));border-color:var(--ok);opacity:1;color:#fff}
+body.light .opt.good{color:#04351f}
+.opt.bad{background:linear-gradient(135deg,rgba(251,113,133,.3),rgba(251,113,133,.1));border-color:var(--no);color:#fff}
+body.light .opt.bad{color:#4d0716}
+.fb{margin-top:10px;font-size:.85rem;color:var(--mut);display:none;padding:9px 13px;border-radius:11px;background:rgba(255,255,255,.05)}
+.fb.show{display:block;animation:pop .3s ease}
+.reset{padding:10px 22px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--txt);
+  font-family:inherit;font-weight:700;cursor:pointer;font-size:.87rem;transition:.25s}
+.reset:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
+/* ============ 12. التذييل ============ */
+footer{text-align:center;color:var(--mut);font-size:.82rem;padding:34px 18px 10px;position:relative;z-index:2}
+/* ============ 13. الجوال ============ */
+@media(max-width:700px){
+  .hero{padding:28px 20px;border-radius:24px}
+  .card{padding:19px 17px}
+  .tab{padding:9px 13px;font-size:.82rem}
+  .tabs{padding:8px;gap:6px}
+  li{padding-right:22px}
+}
+/* ============ 14. الطباعة ============ */
+@media print{
+  .orbs,.bub,.tabs,.pwrap,.ico-btn{display:none!important}
+  body{background:#fff!important;color:#000!important;padding:0}
+  .panel{display:block!important;page-break-before:always}
+  .card{background:#fff!important;border:1px solid #ccc!important;box-shadow:none!important;break-inside:avoid}
+  .card::before{display:none}
+  .term,.card h3,.box .bt,b,strong{color:#000!important}
+  h1{-webkit-text-fill-color:#000!important;color:#000!important}
+  .sub,.lead,.box .bd,.fb,li{color:#333!important}
+  .face.f2{transform:none;position:static}
+  .flip{height:auto}
+  .face{position:static;backface-visibility:visible}
+  .opt,.chip{border:1px solid #bbb!important}
+}
+</style>
+</head>
+<body>
+
+<div class="orbs">
+  <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+</div>
+<div class="pwrap"><div class="bar" id="bar"></div></div>
+
+<!-- ======= أيقونات SVG ======= -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-desktop" viewBox="0 0 48 48"><rect x="6" y="9" width="36" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M17 38h14M24 33v5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 48 48"><rect x="10" y="10" width="28" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M5 34h38l-3 4H8z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tablet" viewBox="0 0 48 48"><rect x="11" y="6" width="26" height="36" rx="4" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="24" cy="36" r="1.8" fill="currentColor"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 48 48"><rect x="14" y="5" width="20" height="38" rx="5" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="24" cy="37" r="1.6" fill="currentColor"/></symbol>
+  <symbol id="i-watch" viewBox="0 0 48 48"><rect x="14" y="13" width="20" height="22" rx="6" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M19 13V6h10v7M19 35v7h10v-7" fill="none" stroke="currentColor" stroke-width="2.6"/></symbol>
+  <symbol id="i-net" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="2.6"/><ellipse cx="24" cy="24" rx="7.5" ry="17" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7.5 18h33M7.5 30h33" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 48 48"><path d="M15 34a8 8 0 0 1 .8-16 10.5 10.5 0 0 1 20 2.6A7.2 7.2 0 0 1 35 34z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-chip" viewBox="0 0 48 48"><rect x="12" y="12" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="2.6"/><rect x="19" y="19" width="10" height="10" rx="2" fill="currentColor"/><path d="M18 12V5M24 12V5M30 12V5M18 43v-7M24 43v-7M30 43v-7M12 18H5M12 24H5M12 30H5M43 18h-7M43 24h-7M43 30h-7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-db" viewBox="0 0 48 48"><ellipse cx="24" cy="12" rx="15" ry="6" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M9 12v24c0 3.3 6.7 6 15 6s15-2.7 15-6V12" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M9 24c0 3.3 6.7 6 15 6s15-2.7 15-6" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="i-people" viewBox="0 0 48 48"><circle cx="19" cy="17" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M7 39c0-6.6 5.4-11 12-11s12 4.4 12 11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M32 14.5a6 6 0 0 1 0 12M37 39c0-4.4-1.6-8-4.2-10.3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 48 48"><path d="M24 5l15 6v11c0 10-6.3 17.6-15 21-8.7-3.4-15-11-15-21V11z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M17 24l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 48 48"><path d="M6 8h6l6 22h20l5-16H14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/><circle cx="18" cy="38" r="3" fill="currentColor"/><circle cx="34" cy="38" r="3" fill="currentColor"/></symbol>
+  <symbol id="i-mag" viewBox="0 0 48 48"><circle cx="21" cy="21" r="12" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="M30 30l11 11" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 48 48"><rect x="5" y="11" width="38" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M6 14l18 13L42 14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 48 48"><path d="M12 6h16l9 9v27H12z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M28 6v9h9" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M18 24h13M18 31h13" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+</svg>
+
+<div class="wrap">
+
+<!-- ======= الهيدر ======= -->
+<header class="hero">
+  <span class="pill">مقدمة في تكنولوجيا المعلومات — قسم علوم الحاسوب ونظم المعلومات — 2025/2026</span>
+  <h1>ملخص شامل: الفصل الأول + الفصل الثاني + مراجعة ١</h1>
+  <p class="sub">كل نقاط المحاضرات مرتبة بتسلسل الفهم والحفظ، مع مخططات بصرية، جداول مقارنة، بطاقات تعريف قابلة للقلب، واختبارات تفاعلية تصحّح نفسها.</p>
+  <div class="hstats">
+    <span class="hstat">3 ملفات</span>
+    <span class="hstat">84 صفحة</span>
+    <span class="hstat">2 فصل + ورقة مراجعة</span>
+    <span class="hstat">21 سؤال تفاعلي</span>
+    <span class="hstat">9 مخططات بصرية</span>
+  </div>
+</header>
+
+<!-- ======= التبويبات ======= -->
+<nav class="tabs">
+  <button class="tab on" data-t="map">خريطة المقرر</button>
+  <button class="tab" data-t="ch1">الفصل ١ — تكنولوجيا المعلومات والإنترنت وأنت</button>
+  <button class="tab" data-t="ch2">الفصل ٢ — الإنترنت والويب والتجارة الإلكترونية</button>
+  <button class="tab" data-t="rev">المراجعة النهائية ١ ★</button>
+  <button class="ico-btn" id="themeBtn" title="تبديل الوضع الليلي/النهاري">☾</button>
+  <button class="ico-btn" id="soundBtn" title="تشغيل/إيقاف الأصوات">◌</button>
+  <button class="ico-btn" id="printBtn" title="طباعة أو حفظ PDF">⎙</button>
+</nav>
+
+<!-- ==================== لوح 1: خريطة المقرر ==================== -->
+<section class="panel on" id="p-map">
+
+  <div class="card c1">
+    <h2><span class="num">0</span> خريطة المقرر الكاملة (14 موضوعًا)</h2>
+    <p class="lead">هذه قائمة محتوى المقرر كما وردت في المحاضرتين. الموضوعان ١ و ٢ هما ما تم شرحه فعليًا في المحاضرة الأولى والثانية، والباقي يأتي تباعًا.</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 660 330" role="img" aria-label="خريطة مواضيع المقرر">
+        <!-- الصف الأول -->
+        <g>
+          <rect x="510" y="26" width="130" height="52" rx="14" class="node" stroke="var(--c1)" stroke-width="2.2"/>
+          <text x="575" y="50" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c1)">١. تكنولوجيا المعلومات</text>
+          <text x="575" y="66" text-anchor="middle" class="svgm">مغطّى ✦ الفصل ١</text>
+
+          <rect x="368" y="26" width="130" height="52" rx="14" class="node" stroke="var(--c2)" stroke-width="2.2"/>
+          <text x="433" y="50" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c2)">٢. الإنترنت والويب</text>
+          <text x="433" y="66" text-anchor="middle" class="svgm">مغطّى ✦ الفصل ٢</text>
+
+          <rect x="226" y="26" width="130" height="52" rx="14" class="node" stroke="var(--c3)" stroke-width="2.2"/>
+          <text x="291" y="50" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c3)">٣. برمجيات التطبيقات</text>
+          <text x="291" y="66" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="84" y="26" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="149" y="50" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٤. برمجيات النظام</text>
+          <text x="149" y="66" text-anchor="middle" class="svgm">قادم</text>
+        </g>
+        <!-- الصف الثاني -->
+        <g>
+          <rect x="510" y="100" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="575" y="124" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٥. وحدة النظام</text>
+          <text x="575" y="140" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="368" y="100" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="433" y="124" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٦. الذاكرة والنظام الثنائي</text>
+          <text x="433" y="140" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="226" y="100" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="291" y="124" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٧. الإدخال والإخراج</text>
+          <text x="291" y="140" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="84" y="100" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="149" y="124" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٨. التخزين الثانوي</text>
+          <text x="149" y="140" text-anchor="middle" class="svgm">قادم</text>
+        </g>
+        <!-- الصف الثالث -->
+        <g>
+          <rect x="510" y="174" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="575" y="198" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">٩. الاتصالات والشبكات</text>
+          <text x="575" y="214" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="368" y="174" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="433" y="198" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">١٠. الخصوصية والأمن</text>
+          <text x="433" y="214" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="226" y="174" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="291" y="198" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">١١. نظم المعلومات</text>
+          <text x="291" y="214" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="84" y="174" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="149" y="198" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">١٢. قواعد البيانات</text>
+          <text x="149" y="214" text-anchor="middle" class="svgm">قادم</text>
+        </g>
+        <!-- الصف الرابع -->
+        <g>
+          <rect x="510" y="248" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="575" y="272" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">١٣. تحليل وتصميم النظم</text>
+          <text x="575" y="288" text-anchor="middle" class="svgm">قادم</text>
+
+          <rect x="368" y="248" width="130" height="52" rx="14" class="node" stroke="var(--line)" stroke-width="1.6"/>
+          <text x="433" y="272" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--mut)">١٤. البرمجة واللغات</text>
+          <text x="433" y="288" text-anchor="middle" class="svgm">قادم</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="grid g3">
+      <div class="box"><div class="bt">هدف المقرر</div><div class="bd">إعطاء الطالب أساس فهم المفاهيم اللازمة للنجاح، وإدراك أثر تكنولوجيا المعلومات على الناس والخصوصية والأخلاقيات والبيئة.</div></div>
+      <div class="box"><div class="bt">الكتاب المرجعي</div><div class="bd">O'Leary, O'Leary &amp; O'Leary (2023) — Computing Essentials: Making IT Work for You, McGraw-Hill.</div></div>
+      <div class="box"><div class="bt">طريقة المذاكرة المقترحة</div><div class="bd">اقرأ المخطط ← افهم الجداول ← احفظ القوائم الملونة ← اختبر نفسك في تبويب «المراجعة النهائية».</div></div>
+    </div>
+  </div>
+
+  <div class="card cp">
+    <h2><span class="num">✦</span> أهم 8 قوائم للحفظ (لو مش فاضل عندك غير ساعة)</h2>
+    <p class="lead">القوائم التالية هي أكثر ما يُسأل عنه في الامتحانات. احفظها كوحدة واحدة.</p>
+    <div class="chiprow">
+      <span class="chip k">أجزاء نظام المعلومات: People — Procedures — Software — Hardware — Data — Internet</span>
+      <span class="chip k">أنواع برمجيات النظام: Operating Systems — Utilities — Device Drivers</span>
+      <span class="chip v">أنواع التطبيقات: General-purpose — Specialized — Apps</span>
+      <span class="chip v">فئات معدات الحاسوب: System Unit — Input/Output — Secondary Storage — Communications</span>
+      <span class="chip g">أنواع الحواسيب: Supercomputer — Mainframe — Midrange/Server — PCs</span>
+      <span class="chip g">الحواسيب الشخصية: Desktop — Laptop — Tablet — Smartphone — Wearables</span>
+      <span class="chip p">قوى التكنولوجيا: Cloud Computing — Wireless Technology — IoT</span>
+      <span class="chip p">تجارة إلكترونية: B2C — C2C — B2B</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== لوح 2: الفصل الأول ==================== -->
+<section class="panel" id="p-ch1">
+
+  <div class="card c1">
+    <h2><span class="num">1</span> أجزاء نظام المعلومات الستة</h2>
+    <p class="lead">نظام المعلومات يتكوّن من ستة أجزاء. الترتيب مهم للامتحان، والأهم أنه <b>الناس (People) هم الجزء الأهم في أي نظام</b>.</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 620 360" role="img" aria-label="أجزاء نظام المعلومات الستة">
+        <circle cx="310" cy="180" r="66" class="node" stroke="var(--c1)" stroke-width="2.6"/>
+        <text x="310" y="172" text-anchor="middle" class="svgtx" font-size="15" fill="var(--c1)">نظام</text>
+        <text x="310" y="194" text-anchor="middle" class="svgtx" font-size="15" fill="var(--c1)">المعلومات</text>
+
+        <!-- خطوط -->
+        <g class="flow">
+          <path d="M310 114V74"/><path d="M369 141l48-27"/><path d="M369 219l48 27"/>
+          <path d="M310 246v40"/><path d="M251 219l-48 27"/><path d="M251 141l-48-27"/>
+        </g>
+
+        <circle cx="310" cy="52" r="42" fill="rgba(34,211,238,.16)" stroke="var(--c1)" stroke-width="2.4"/>
+        <text x="310" y="49" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c1)">People</text>
+        <text x="310" y="66" text-anchor="middle" class="svgm">الناس ★ الأهم</text>
+
+        <circle cx="452" cy="120" r="42" fill="rgba(167,139,250,.16)" stroke="var(--c2)" stroke-width="2.4"/>
+        <text x="452" y="117" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c2)">Procedures</text>
+        <text x="452" y="134" text-anchor="middle" class="svgm">الإجراءات</text>
+
+        <circle cx="452" cy="240" r="42" fill="rgba(251,191,36,.16)" stroke="var(--c3)" stroke-width="2.4"/>
+        <text x="452" y="237" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c3)">Software</text>
+        <text x="452" y="254" text-anchor="middle" class="svgm">البرمجيات</text>
+
+        <circle cx="310" cy="308" r="42" fill="rgba(244,114,182,.16)" stroke="var(--pink)" stroke-width="2.4"/>
+        <text x="310" y="305" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--pink)">Hardware</text>
+        <text x="310" y="322" text-anchor="middle" class="svgm">المعدات</text>
+
+        <circle cx="168" cy="240" r="42" fill="rgba(52,211,153,.16)" stroke="var(--ok)" stroke-width="2.4"/>
+        <text x="168" y="237" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--ok)">Data</text>
+        <text x="168" y="254" text-anchor="middle" class="svgm">البيانات</text>
+
+        <circle cx="168" cy="120" r="42" fill="rgba(34,211,238,.16)" stroke="var(--c1)" stroke-width="2.4"/>
+        <text x="168" y="117" text-anchor="middle" class="svgtx" font-size="13" fill="var(--c1)">Internet</text>
+        <text x="168" y="134" text-anchor="middle" class="svgm">الإنترنت</text>
+      </svg>
+    </div>
+
+    <div class="box" style="--acc:var(--c1)">
+      <div class="bt">كيف يساعدك الكتاب على أن تصبح مستخدمًا فعّالًا؟</div>
+      <div class="bd">Making IT Work for You (قسم التطبيق العملي) — Tips (نصائح) — Privacy (الخصوصية) — Environments (البيئة) — Ethics (الأخلاقيات) — Careers in IT (وظائف تقنية المعلومات).</div>
+    </div>
+    <div class="tip">أول سؤال متوقّع دائمًا: «اذكر أجزاء نظام المعلومات الستة». الإجابة: People, Procedures, Software, Hardware, Data, Internet.</div>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">2</span> البرمجيات: النوعان الرئيسيان</h2>
+    <p class="lead"><b>البرمجيات (Software / Programs)</b> تخبر الحاسوب كيف يعالج البيانات ليُخرجها بالشكل الذي تريده. وهناك نوعان رئيسيان فقط.</p>
+
+    <div class="tree">
+      <div class="root">Software — البرمجيات</div>
+      <div class="tree-row g2" style="display:grid">
+        <div class="branch" style="--acc:var(--c1)">
+          <div class="bt">System Software — برمجيات النظام</div>
+          <div style="font-size:.85rem;color:var(--mut);margin-bottom:9px">برمجيات يستخدمها الحاسوب نفسه. تُمكّن برمجيات التطبيقات من التفاعل مع المعدات، وهي برمجيات خلفية تساعد في إدارة الموارد.</div>
+          <div class="leaf">Operating Systems — أنظمة التشغيل</div>
+          <div class="leaf">Utilities — الأدوات المساعدة</div>
+          <div class="leaf">Device Drivers — برامج تعريف الأجهزة</div>
+        </div>
+        <div class="branch" style="--acc:var(--c2)">
+          <div class="bt">Application Software — برمجيات التطبيقات</div>
+          <div style="font-size:.85rem;color:var(--mut);margin-bottom:9px">برمجيات المستخدم النهائي (End-user software) — «البرمجيات التي تستخدمها أنت».</div>
+          <div class="leaf">General-purpose — عامة الغرض</div>
+          <div class="leaf">Specialized — متخصصة</div>
+          <div class="leaf">Apps — تطبيقات الجوال</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>أولًا: نظام التشغيل (Operating System)</h3>
+    <p>له <b>ثلاث وظائف</b> يجب حفظها بالترتيب:</p>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c1)"><div class="bt">١. ينسّق موارد الحاسوب</div><div class="bd">Coordinates computer resources</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">٢. يوفّر واجهة المستخدم</div><div class="bd">Provides the user interface</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">٣. يشغّل التطبيقات</div><div class="bd">Runs applications</div></div>
+    </div>
+
+    <h3>أنواع أنظمة التشغيل (4 أنواع)</h3>
+    <table class="tbl">
+      <tr><th>النوع</th><th>استخدامه كما في المحاضرة</th></tr>
+      <tr><td><span class="term">Embedded OS</span> — نظام تشغيل مدمج</td><td>يُستخدم في الهواتف الذكية والأجهزة اللوحية</td></tr>
+      <tr><td><span class="term">Real-time OS (RTOS)</span> — نظام الزمن الحقيقي</td><td>مذكور كنوع من أنواع أنظمة التشغيل</td></tr>
+      <tr><td><span class="term">Standalone OS</span> — نظام مستقل</td><td>يُستخدم في أجهزة سطح المكتب (Desktops)</td></tr>
+      <tr><td><span class="term">Networking OS</span> — نظام تشغيل شبكات</td><td>يُستخدم لتشغيل الشبكات</td></tr>
+    </table>
+
+    <h3>ثانيًا: الأدوات المساعدة (Utilities)</h3>
+    <p>تنفّذ مهامًا محدّدة تتعلق بإدارة موارد الحاسوب. أشهر مثال: <b>مضاد الفيروسات (Antivirus Program)</b> الذي يحمي من الفيروسات — والفيروسات قد:</p>
+    <div class="chiprow">
+      <span class="chip p">تُلحق الضرر بالبرمجيات أو المعدات</span>
+      <span class="chip p">تخترق أمن وخصوصية البيانات الشخصية</span>
+    </div>
+
+    <h3>ثالثًا: برمجيات التطبيقات — الأنواع الثلاثة</h3>
+    <table class="tbl">
+      <tr><th>النوع</th><th>المعنى</th><th>أمثلة</th></tr>
+      <tr><td><b>General-purpose</b> — عامة الغرض</td><td>برامج واسعة الاستخدام</td><td>Browsers (متصفحات) — Word Processor (معالج نصوص)</td></tr>
+      <tr><td><b>Specialized</b> — متخصصة</td><td>مركّزة على مجال أضيق</td><td>Web Authoring (تأليف صفحات الويب)</td></tr>
+      <tr><td><b>Apps</b> — تطبيقات</td><td>مصمّمة للأجهزة المحمولة</td><td>Social media apps (تطبيقات التواصل الاجتماعي)</td></tr>
+    </table>
+    <div class="tip">المقارنة المتوقّعة: General-purpose = واسعة الانتشار، Specialized = أضيق تركيزًا. (مثال MCQ: المتصفح = عام الغرض، تأليف الويب = متخصص).</div>
+  </div>
+
+  <div class="card c1">
+    <h2><span class="num">3</span> المعدات: أنواع الحواسيب</h2>
+    <p class="lead">أربعة أنواع رئيسية، من الأقوى إلى الأصغر. لاحظ أن «الحواسيب الشخصية» فئة وحدها ولها خمسة أنواع.</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 620 250" role="img" aria-label="أنواع الحواسيب حسب القدرة">
+        <rect x="24" y="22" width="572" height="42" rx="12" fill="url(#g1)" stroke="var(--c1)" stroke-width="1.8"/>
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="rgba(34,211,238,.30)"/><stop offset="1" stop-color="rgba(34,211,238,.06)"/></linearGradient>
+          <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="rgba(167,139,250,.28)"/><stop offset="1" stop-color="rgba(167,139,250,.05)"/></linearGradient>
+          <linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="rgba(251,191,36,.28)"/><stop offset="1" stop-color="rgba(251,191,36,.05)"/></linearGradient>
+          <linearGradient id="g4" x1="0" x2="1"><stop offset="0" stop-color="rgba(244,114,182,.28)"/><stop offset="1" stop-color="rgba(244,114,182,.05)"/></linearGradient>
+        </defs>
+        <text x="556" y="48" text-anchor="end" class="svgtx" font-size="13" fill="var(--c1)">Supercomputer — الأقوى على الإطلاق</text>
+        <text x="556" y="48" text-anchor="end" class="svgtx" font-size="13" fill="transparent">.</text>
+        <text x="40" y="48" class="svgm">يحلّل ويتوقّع كميات هائلة من البيانات (مثل أنماط الطقس العالمية)</text>
+
+        <rect x="24" y="76" width="452" height="42" rx="12" fill="url(#g2)" stroke="var(--c2)" stroke-width="1.8"/>
+        <text x="464" y="102" text-anchor="end" class="svgtx" font-size="13" fill="var(--c2)">Mainframe — تعالج كميات كبيرة من البيانات</text>
+
+        <rect x="24" y="130" width="340" height="42" rx="12" fill="url(#g3)" stroke="var(--c3)" stroke-width="1.8"/>
+        <text x="352" y="156" text-anchor="end" class="svgtx" font-size="13" fill="var(--c3)">Midrange / Servers — خوادم</text>
+
+        <rect x="24" y="184" width="230" height="42" rx="12" fill="url(#g4)" stroke="var(--pink)" stroke-width="1.8"/>
+        <text x="242" y="210" text-anchor="end" class="svgtx" font-size="13" fill="var(--pink)">Personal Computers (PCs)</text>
+        <text x="24" y="243" class="svgm">اتجاه العرض = القدرة الحاسوبية (الأعلى في الأعلى)</text>
+      </svg>
+    </div>
+
+    <h3>أنواع الحواسيب الشخصية الخمسة</h3>
+    <div class="grid g5">
+      <div class="box" style="--acc:var(--c1);text-align:center"><svg width="40" height="40" style="color:var(--c1)"><use href="#i-desktop"/></svg><div class="bt">Desktop</div><div class="bd">سطح المكتب</div></div>
+      <div class="box" style="--acc:var(--c1);text-align:center"><svg width="40" height="40" style="color:var(--c1)"><use href="#i-laptop"/></svg><div class="bt">Laptop</div><div class="bd">Notebook — محمول</div></div>
+      <div class="box" style="--acc:var(--c1);text-align:center"><svg width="40" height="40" style="color:var(--c1)"><use href="#i-tablet"/></svg><div class="bt">Tablet</div><div class="bd">لوحي</div></div>
+      <div class="box" style="--acc:var(--c1);text-align:center"><svg width="40" height="40" style="color:var(--c1)"><use href="#i-phone"/></svg><div class="bt">Smartphone</div><div class="bd">هاتف ذكي</div></div>
+      <div class="box" style="--acc:var(--c1);text-align:center"><svg width="40" height="40" style="color:var(--c1)"><use href="#i-watch"/></svg><div class="bt">Wearables</div><div class="bd">أجهزة قابلة للارتداء</div></div>
+    </div>
+
+    <h3>فئات معدات الحاسوب الشخصي الأربع</h3>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c1)"><div class="bt">1. System Unit — وحدة النظام</div><div class="bd">تحتوي معظم المكونات الإلكترونية</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">2. Input / Output — الإدخال والإخراج</div><div class="bd">ترجمة البيانات إلى لغة الحاسوب والعكس</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">3. Secondary Storage — التخزين الثانوي</div><div class="bd">يحفظ البيانات والبرامج بدون طاقة</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">4. Communications — الاتصالات</div><div class="bd">تمكين الحواسيب من التواصل</div></div>
+    </div>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">4</span> وحدة النظام ← الإدخال/الإخراج ← التخزين ← الاتصال</h2>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 660 240" role="img" aria-label="مكوّنات الحاسوب الشخصي">
+        <rect x="470" y="72" width="150" height="72" rx="14" fill="rgba(34,211,238,.16)" stroke="var(--c1)" stroke-width="2.2"/>
+        <text x="545" y="100" text-anchor="middle" class="svgtx" font-size="13" fill="var(--c1)">Input</text>
+        <text x="545" y="120" text-anchor="middle" class="svgm">Keyboard · Mouse</text>
+
+        <rect x="255" y="56" width="150" height="104" rx="16" fill="rgba(167,139,250,.18)" stroke="var(--c2)" stroke-width="2.4"/>
+        <text x="330" y="86" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c2)">System Unit</text>
+        <text x="330" y="108" text-anchor="middle" class="svgm">Microprocessor</text>
+        <text x="330" y="126" text-anchor="middle" class="svgm">+ Memory</text>
+        <text x="330" y="146" text-anchor="middle" class="svgm">تخزين مؤقت</text>
+
+        <rect x="40" y="72" width="150" height="72" rx="14" fill="rgba(52,211,153,.16)" stroke="var(--ok)" stroke-width="2.2"/>
+        <text x="115" y="100" text-anchor="middle" class="svgtx" font-size="13" fill="var(--ok)">Output</text>
+        <text x="115" y="120" text-anchor="middle" class="svgm">Display · Printer</text>
+
+        <path class="flow" d="M470 108H405" marker-end="url(#ar)"/>
+        <path class="flow" d="M255 108H190" marker-end="url(#ar)"/>
+        <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="var(--mut)"/></marker></defs>
+
+        <rect x="255" y="180" width="150" height="46" rx="12" fill="rgba(251,191,36,.15)" stroke="var(--c3)" stroke-width="2"/>
+        <text x="330" y="199" text-anchor="middle" class="svgtx" font-size="12" fill="var(--c3)">Secondary Storage</text>
+        <text x="330" y="216" text-anchor="middle" class="svgm">Hard · SSD · Optical</text>
+        <path class="flow" d="M330 180v-20" marker-end="url(#ar)"/>
+
+        <rect x="455" y="180" width="150" height="46" rx="12" fill="rgba(244,114,182,.15)" stroke="var(--pink)" stroke-width="2"/>
+        <text x="530" y="199" text-anchor="middle" class="svgtx" font-size="12" fill="var(--pink)">Communications</text>
+        <text x="530" y="216" text-anchor="middle" class="svgm">Modem — تعديل البيانات</text>
+      </svg>
+    </div>
+
+    <h3>وحدة النظام (System Unit)</h3>
+    <p>صندوق/حاوية تضم معظم المكونات الإلكترونية. ولها <b>مكوّنان مهمّان</b>: <span class="term v">Microprocessor</span> و <span class="term v">Memory</span>.</p>
+    <div class="box" style="--acc:var(--c2)">
+      <div class="bt">الذاكرة (Memory) — نقطة امتحانية دائمًا</div>
+      <div class="bd">تحمل البيانات التي تُعالج حاليًا، وتحمل المعلومات الناتجة قبل إخراجها. <b>تخزين مؤقت</b> ومحتوياتها <b>تُفقد عند انقطاع الكهرباء</b>.</div>
+    </div>
+
+    <h3>الإدخال والإخراج</h3>
+    <table class="tbl">
+      <tr><th>الفئة</th><th>الوظيفة</th><th>أمثلة</th></tr>
+      <tr><td><b>Input</b> — إدخال</td><td>تحويل البيانات إلى لغة الحاسوب</td><td>Keyboard · Mouse</td></tr>
+      <tr><td><b>Output</b> — إخراج</td><td>تحويل بيانات الحاسوب إلى معلومات قابلة للاستخدام</td><td>Display · Printer</td></tr>
+    </table>
+    <div class="tip warn">فخّ سؤال صح/خطأ: «أجهزة الإخراج تحوّل البيانات إلى لغة الحاسوب» = <b>خطأ</b> — هذه وظيفة الإدخال.</div>
+
+    <h3>التخزين الثانوي (Secondary Storage)</h3>
+    <p>يحفظ البيانات والبرامج <b>حتى مع انقطاع الطاقة</b> (وهو الفرق الجوهري عن الذاكرة).</p>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c2)"><div class="bt">Hard Disk — قرص صلب</div><div class="bd">مذكور كوسيط تخزين ثانوي</div></div>
+      <div class="box" style="--acc:var(--c2)"><div class="bt">Solid-State — تخزين صلب</div><div class="bd">بدون أجزاء متحركة · أكثر موثوقية · يحتاج طاقة أقل</div></div>
+      <div class="box" style="--acc:var(--c2)"><div class="bt">Optical Disc — قرص ضوئي</div><div class="bd">يستخدم تقنية الليزر · CD · DVD · Blu-ray</div></div>
+    </div>
+
+    <h3>الاتصال (Connectivity)</h3>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Connectivity</div><div class="bd">مشاركة المعلومات</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Network — الشبكة</div><div class="bd">نظام اتصالات يربط جهازين أو أكثر</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Internet — الإنترنت</div><div class="bd">أكبر شبكة على الإطلاق</div></div>
+    </div>
+    <p><b>أجهزة الاتصال</b> تمنح الحواسيب الشخصية القدرة على التواصل، و<b>المودم (Modem)</b> يعدّل الصوت والفيديو وأنواع البيانات الأخرى لاستخدامها عبر الإنترنت.</p>
+
+    <h3>البيانات والملفات (Data &amp; Files)</h3>
+    <p><b>البيانات (Data)</b> = حقائق خام غير معالجة. وعند معالجتها تتحوّل إلى <b>معلومات (Information)</b>. البيانات الرقمية تُخزّن إلكترونيًا في ملفات، وأشهر <b>أربعة أنواع ملفات</b>:</p>
+    <div class="chiprow">
+      <span class="chip k">Document — مستند</span><span class="chip k">Worksheet — ورقة عمل</span>
+      <span class="chip k">Database — قاعدة بيانات</span><span class="chip k">Presentation — عرض تقديمي</span>
+    </div>
+
+    <h3>قوى التكنولوجيا الثلاث (Forces of Technology)</h3>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c3)"><div class="bt">١. Cloud Computing</div><div class="bd">حاسوبات على الإنترنت — الوصول لموارد أكثر</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٢. Wireless Technology</div><div class="bd">تغيّر طريقة تواصلنا — الأجهزة اللوحية والهواتف والقابلة للارتداء</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٣. Internet of Things (IoT)</div><div class="bd">تطوير مستمر للإنترنت ليسمح لجميع أنواع الأجهزة بالتواصل</div></div>
+    </div>
+
+    <h3>وظائف تقنية المعلومات (5 وظائف)</h3>
+    <table class="tbl">
+      <tr><th>الوظيفة</th><th>الدور</th></tr>
+      <tr><td><b>Webmaster</b></td><td>يطوّر ويصون المواقع والموارد الإلكترونية</td></tr>
+      <tr><td><b>Software Engineer</b></td><td>يحلّل احتياجات المستخدمين ويُنشئ برمجيات التطبيقات</td></tr>
+      <tr><td><b>Computer Support Specialist</b></td><td>يقدّم الدعم الفني للعملاء والمستخدمين</td></tr>
+      <tr><td><b>Technical Writer</b></td><td>يُعدّ أدلة الاستخدام والتقارير الفنية والمستندات العلمية</td></tr>
+      <tr><td><b>Network Administrator</b></td><td>يُنشئ شبكات الحاسوب ويحافظ عليها</td></tr>
+    </table>
+  </div>
+
+  <div class="card cp">
+    <h2><span class="num">✓</span> اختبار ذاتي سريع — الفصل الأول (10 عبارات صح/خطأ)</h2>
+    <div class="quizhead"><span class="lead" style="margin:0">اضغط على «صح» أو «خطأ» لترى التصحيح فورًا. كل العبارات هنا صحيحة وفق المحاضرة.</span>
+      <span class="score" data-scope="q1">0 / 0</span></div>
+    <div class="quiz" data-q="q1">
+      <div class="q"><div class="qt">1) وحدة النظام حاوية تضم معظم المكونات الإلكترونية للحاسوب.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — نصّت المحاضرة على ذلك مباشرة.</div></div>
+      <div class="q"><div class="qt">2) أجهزة الإخراج هي التي تترجم المعلومات المُعالجة إلى شكل يفهمه الإنسان.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — الإخراج = معلومات قابلة للاستخدام.</div></div>
+      <div class="q"><div class="qt">3) تتكوّن وحدة النظام من مكوّنين مهمّين: المعالج الدقيق والذاكرة.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Microprocessor + Memory.</div></div>
+      <div class="q"><div class="qt">4) وظيفة البرمجيات هي تحويل البيانات إلى معلومات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Software tells the computer how to process data.</div></div>
+      <div class="q"><div class="qt">5) البيانات هي الحقائق الخام غير المعالجة، وتشمل النصوص والأرقام والصور والأصوات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Raw, unprocessed facts.</div></div>
+      <div class="q"><div class="qt">6) هناك نوعان رئيسيان من البرمجيات: برمجيات النظام وبرمجيات التطبيقات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — System &amp; Application.</div></div>
+      <div class="q"><div class="qt">7) الإنترنت هو أكبر شبكة.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — The largest network.</div></div>
+      <div class="q"><div class="qt">8) أنظمة التشغيل هي برامج تنسّق موارد الحاسوب وتوفّر واجهة بين المستخدم والجهاز وتشغّل التطبيقات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — هذه وظائفها الثلاث.</div></div>
+      <div class="q"><div class="qt">9) الحواسيب العملاقة (Supercomputers) هي الأقوى، وتُستخدم لمعالجة كميات ضخمة من البيانات مثل تحليل أنماط الطقس.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Most powerful computers.</div></div>
+      <div class="q"><div class="qt">10) برامج مضاد الفيروسات تحمي نظامك من الفيروسات والبرامج الخبيثة القادمة من الإنترنت.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — وظيفة الـ Antivirus.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== لوح 3: الفصل الثاني ==================== -->
+<section class="panel" id="p-ch2">
+
+  <div class="card c1">
+    <h2><span class="num">1</span> الإنترنت مقابل الويب (Internet vs Web)</h2>
+    <p class="lead">أشهر سؤال في الفصل: ما الفرق؟ الجواب في سطر واحد: <b>الإنترنت شبكة فيزيائية، والويب واجهة وسائط متعددة لمواردها</b>. وهما <b>ليسا الشيء نفسه</b>.</p>
+
+    <div class="svgbox">
+      <svg viewBox="0 0 660 210" role="img" aria-label="الإنترنت والويب">
+        <line x1="120" y1="60" x2="120" y2="150" stroke="var(--c1)" stroke-width="3"/>
+        <line x1="330" y1="60" x2="330" y2="150" stroke="var(--c2)" stroke-width="3"/>
+        <circle cx="120" cy="52" r="9" fill="var(--c1)"/><circle cx="330" cy="52" r="9" fill="var(--c2)"/>
+        <text x="120" y="32" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c1)">1969</text>
+        <text x="330" y="32" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c2)">1991</text>
+        <text x="120" y="172" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c1)">ARPANET</text>
+        <text x="120" y="190" text-anchor="middle" class="svgm">الأساس · الشبكة الفيزيائية</text>
+        <text x="330" y="172" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c2)">World Wide Web</text>
+        <text x="330" y="190" text-anchor="middle" class="svgm">واجهة الوسائط المتعددة</text>
+        <path class="flow" d="M140 100H310" marker-end="url(#ar2)"/>
+        <defs><marker id="ar2" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0 0L9 4.5L0 9z" fill="var(--mut)"/></marker></defs>
+
+        <rect x="430" y="34" width="212" height="132" rx="14" fill="rgba(255,255,255,.05)" stroke="var(--c1)" stroke-width="1.6"/>
+        <text x="536" y="62" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c1)">Internet = أكبر شبكة عالمية</text>
+        <text x="536" y="86" text-anchor="middle" class="svgm">تربط ملايين الناس والمؤسسات</text>
+        <text x="536" y="108" text-anchor="middle" class="svgm">أساس الثورة الرقمية</text>
+        <text x="536" y="132" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c2)">Web = واجهة سهلة الاستخدام</text>
+        <text x="536" y="154" text-anchor="middle" class="svgm">للموارد المتاحة على الإنترنت</text>
+      </svg>
+    </div>
+    <div class="box" style="--acc:var(--c1)">
+      <div class="bt">الأصل والنشأة</div>
+      <div class="bd">الإنترنت شبكة عالمية كبيرة تربط شبكات أصغر حول العالم. <b>أُطلق عام 1969</b> ضمن مشروع ممول من الولايات المتحدة لتطوير شبكة حاسوب وطنية باسم <span class="term">ARPANET</span> (Advanced Research Project Agency Network). أما <b>الويب (WWW) فقد قُدّم عام 1991</b>.</div>
+    </div>
+
+    <h3>أجيال الويب (Web Generations)</h3>
+    <div class="svgbox">
+      <svg viewBox="0 0 660 120" role="img" aria-label="أجيال الويب">
+        <rect x="460" y="34" width="180" height="60" rx="14" fill="rgba(34,211,238,.16)" stroke="var(--c1)" stroke-width="2"/>
+        <text x="550" y="60" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c1)">Web 1.0</text>
+        <text x="550" y="80" text-anchor="middle" class="svgm">ربط المعلومات · برامج البحث</text>
+
+        <rect x="250" y="34" width="180" height="60" rx="14" fill="rgba(167,139,250,.16)" stroke="var(--c2)" stroke-width="2"/>
+        <text x="340" y="60" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c2)">Web 2.0</text>
+        <text x="340" y="80" text-anchor="middle" class="svgm">محتوى ديناميكي · Facebook</text>
+
+        <rect x="40" y="34" width="180" height="60" rx="14" fill="rgba(251,191,36,.16)" stroke="var(--c3)" stroke-width="2"/>
+        <text x="130" y="60" text-anchor="middle" class="svgtx" font-size="13.5" fill="var(--c3)">Web 3.0</text>
+        <text x="130" y="80" text-anchor="middle" class="svgm">علاقات بين البيانات · محتوى مخصّص</text>
+
+        <path class="flow" d="M460 64h-26" marker-end="url(#ar2)"/>
+        <path class="flow" d="M250 64h-26" marker-end="url(#ar2)"/>
+      </svg>
+    </div>
+    <div class="tip warn">سؤال مراجعة الفصل الثاني يذكر «أربعة أجيال للويب»، بينما الشرائح تعرض ثلاثة (1.0 و2.0 و3.0). راجع مع مدرّسك إن كان الجيل الرابع (Web 4.0) مقررًا عليكم.</div>
+
+    <h3>الاستخدامات الشائعة للإنترنت</h3>
+    <div class="chiprow">
+      <span class="chip k">التواصل (بريد، صور، فيديو)</span><span class="chip k">المناقشات</span><span class="chip k">التسوق</span>
+      <span class="chip k">البحث</span><span class="chip k">المكتبات الافتراضية</span><span class="chip k">التعليم / التعلم الإلكتروني</span>
+      <span class="chip k">الترفيه الإلكتروني (Netflix · Hulu · Amazon Prime · CNN · Kindle)</span>
+    </div>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">2</span> الوصول إلى الإنترنت والمتصفحات والعناوين</h2>
+
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c2)">
+        <div class="bt">مزوّدو خدمة الإنترنت (ISP)</div>
+        <div class="bd">الطريقة الشائعة للوصول إلى الإنترنت: يوفّرون مسارًا للوصول عبر خطوط الهاتف أو الكابل أو الاتصال اللاسلكي. أشهرهم: Verizon · Comcast · Sprint · T-Mobile · AT&amp;T.</div>
+      </div>
+      <div class="box" style="--acc:var(--c2)">
+        <div class="bt">المتصفحات (Browsers)</div>
+        <div class="bd">توفّر الوصول لموارد الويب وتتيح استكشافه، وتتصل بحواسيب بعيدة، وواجهة مبسّطة للإنترنت، ونقل الملفات، وعرض الوسائط المتعددة. الأشهر: Mozilla Firefox · Apple Safari · Microsoft Edge · Google Chrome.</div>
+      </div>
+    </div>
+
+    <h3>URL — محدّد موقع المورد</h3>
+    <div class="svgbox">
+      <svg viewBox="0 0 660 130" role="img" aria-label="أجزاء الـ URL">
+        <rect x="380" y="30" width="240" height="48" rx="12" fill="rgba(34,211,238,.18)" stroke="var(--c1)" stroke-width="2"/>
+        <text x="500" y="61" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c1)">Protocol</text>
+        <text x="500" y="100" text-anchor="middle" class="svgm">قواعد تبادل البيانات (https الأشهر)</text>
+
+        <rect x="120" y="30" width="240" height="48" rx="12" fill="rgba(167,139,250,.18)" stroke="var(--c2)" stroke-width="2"/>
+        <text x="240" y="61" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c2)">Domain Name</text>
+        <text x="240" y="100" text-anchor="middle" class="svgm">مكان وجود المورد</text>
+        <text x="640" y="22" text-anchor="end" class="svgm">Uniform Resource Locator = عنوان المورد (جزآن)</text>
+      </svg>
+    </div>
+
+    <h3>النطاق الأعلى (TLD — Top-Level Domain / Web Suffix)</h3>
+    <p>يحدّد <b>نوع المؤسسة</b>:</p>
+    <table class="tbl">
+      <tr><th>النطاق</th><th>النوع</th></tr>
+      <tr><td><span class="term">.com</span></td><td>تجاري — Commercial</td></tr>
+      <tr><td><span class="term">.edu</span></td><td>تعليمي — Educational</td></tr>
+      <tr><td><span class="term">.gov</span></td><td>حكومي — Government</td></tr>
+      <tr><td><span class="term">.mil</span></td><td>عسكري أمريكي — U.S. military</td></tr>
+      <tr><td><span class="term">.ne(t)</span></td><td>شبكات — كما ورد في الشريحة</td></tr>
+    </table>
+
+    <h3>HTML والروابط التشعبية</h3>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c1)">
+        <div class="bt">HTML</div>
+        <div class="bd">Hypertext Markup Language — لغة ترميز لعرض صفحات الويب. المتصفحات <b>تفسّر</b> أوامر HTML وتعرض المستند كصفحة ويب.</div>
+      </div>
+      <div class="box" style="--acc:var(--c1)">
+        <div class="bt">Hyperlinks — الروابط</div>
+        <div class="bd">تربط بصفحات ويب أخرى، أو ملفات نصية، أو صور، أو مقاطع صوت وفيديو.</div>
+      </div>
+    </div>
+    <p><b>تقنيات المواقع التفاعلية:</b> <span class="term">CSS</span> (أوراق الأنماط المتتالية) · <span class="term">JavaScript</span> · <span class="term">PHP</span>. أما <b>متصفحات الجوال (Mobile Browsers)</b> فمصمّمة للعمل على الأجهزة المحمولة.</p>
+  </div>
+
+  <div class="card c3">
+    <h2><span class="num">3</span> أدوات الويب (Web Utilities)</h2>
+    <p class="lead">برامج أدوات متخصّصة تجعل استخدام الإنترنت والويب <b>أكثر أمانًا وسهولة</b>. ثلاثة أنواع:</p>
+
+    <div class="tree">
+      <div class="tree-row g3" style="display:grid">
+        <div class="branch" style="--acc:var(--c1)">
+          <div class="bt">١. Filters — المرشّحات</div>
+          <div class="leaf">تحجب الوصول إلى مواقع محدّدة</div>
+          <div class="leaf">تضع حدودًا زمنية للاستخدام</div>
+          <div class="leaf">تراقب الوقت الكلي على الإنترنت وعلى كل موقع</div>
+          <div style="font-size:.82rem;color:var(--mut);margin-top:8px">Net Nanny · Qustodio Parental Control · Circle with Disney · Norton Online Family · McAfee Family Protection</div>
+        </div>
+        <div class="branch" style="--acc:var(--c2)">
+          <div class="bt">٢. File Transfer Utilities</div>
+          <div class="leaf">رفع وتنزيل الملفات من وإلى الإنترنت</div>
+          <div class="leaf">Downloading / Uploading</div>
+          <div class="leaf">خدمات نقل ملفات عبر الويب (Web-based)</div>
+          <div class="leaf">Bit-Torrent</div>
+          <div class="leaf">FTP / SFTP</div>
+        </div>
+        <div class="branch" style="--acc:var(--c3)">
+          <div class="bt">٣. Internet Security Suites</div>
+          <div class="leaf">تحافظ على أمنك وخصوصيتك أثناء استخدام الويب</div>
+          <div class="leaf">أشهر حزمتين: McAfee Internet Security · Symantec Norton Internet Security</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">4</span> التواصل — أشهر نشاط على الإنترنت</h2>
+
+    <table class="tbl">
+      <tr><th>الوسيلة</th><th>أهم ما يجب حفظه</th></tr>
+      <tr><td><b>Social Networking</b><br>التواصل الاجتماعي</td><td>يربط الناس والمؤسسات الذين يشاركون اهتمامًا أو نشاطًا مشتركًا. ميزاته: Profiles · Pages · Groups · Friends · News feed · Share settings.</td></tr>
+      <tr><td><b>Blogs</b><br>المدوّنات</td><td>مواقع شخصية بطوابع تاريخ ووقت، وتُرتّب بحيث يظهر <b>الأحدث أولًا</b>.</td></tr>
+      <tr><td><b>Microblogs</b><br>المدوّنات المصغّرة</td><td>تحديثات حالة قصيرة. الأشهر: <b>Twitter</b>. ورسائلها تُسمّى <b>Tweets</b>.</td></tr>
+      <tr><td><b>Webcast</b></td><td>تقنية بث (Streaming) للبث المباشر للصوت والفيديو — <b>لا تبقى ملفات بعد انتهاء البث</b>.</td></tr>
+      <tr><td><b>Podcast</b></td><td><b>يجب تنزيل الملفات</b> لاستخدامها، ويمكن نقلها إلى مشغّل وسائط.</td></tr>
+      <tr><td><b>Wiki</b></td><td>موقع ويب مصمّم خصيصًا يسمح للزوار <b>بتعديل المحتوى</b> ويدعم الكتابة التعاونية.</td></tr>
+    </table>
+
+    <h3>البريد الإلكتروني (E-mail)</h3>
+    <p>نقل رسائل إلكترونية عبر الإنترنت، وله <b>ثلاثة عناصر</b>:</p>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c2)"><div class="bt">١. Header</div><div class="bd">Address (العنوان) · Subject (الموضوع) · Attachments (المرفقات)</div></div>
+      <div class="box" style="--acc:var(--c2)"><div class="bt">٢. Message</div><div class="bd">نص الرسالة</div></div>
+      <div class="box" style="--acc:var(--c2)"><div class="bt">٣. Signature</div><div class="bd">التوقيع</div></div>
+    </div>
+
+    <h3>أنظمة البريد: عميل مقابل ويب</h3>
+    <table class="tbl">
+      <tr><th></th><th>Client-based</th><th>Web-based</th></tr>
+      <tr><td><b>التثبيت</b></td><td>يجب تثبيت برنامج البريد على الحاسوب</td><td>لا يحتاج أي تثبيت — ومجاني</td></tr>
+      <tr><td><b>أمثلة</b></td><td>Apple Mail · Microsoft Outlook</td><td>Gmail · Hotmail · Yahoo! Mail</td></tr>
+    </table>
+
+    <h3>الرسائل المزعجة والفيروسات</h3>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--no)"><div class="bt">SPAM</div><div class="bd">بريد غير مرغوب فيه</div></div>
+      <div class="box" style="--acc:var(--no)"><div class="bt">Computer Viruses</div><div class="bd">برامج مدمّرة تُرفق برسائل غير مرغوبة</div></div>
+      <div class="box" style="--acc:var(--ok)"><div class="bt">CAN-SPAM Act</div><div class="bd">قوانين مكافحة الرسائل المزعجة: كل بريد تسويقي يجب أن يوفّر خيار إلغاء الاشتراك (opt-out)</div></div>
+    </div>
+    <p><b>Spam blockers / spam filters</b> تحدّد الرسائل المزعجة وتتحكّم فيها.</p>
+
+    <h3>الت messaging — الرسائل الفورية</h3>
+    <div class="grid g3">
+      <div class="box" style="--acc:var(--c3)"><div class="bt">SMS</div><div class="bd">Short Message Service — رسالة إلكترونية قصيرة</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">MMS</div><div class="bd">Multimedia Messaging Service — إرسال صور وفيديو وأصوات</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">Instant Messaging (IM)</div><div class="bd">امتداد للبريد يوفّر تواصلًا مباشرًا وحيًّا بين شخصين أو أكثر؛ ومعظم البرامج تضم مؤتمرات فيديو ومشاركة ملفات ومساعدة عن بُعد — Facebook Messenger · Google Hangouts</div></div>
+    </div>
+  </div>
+
+  <div class="card c1">
+    <h2><span class="num">5</span> أدوات البحث وتقييم المحتوى</h2>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Search Services</div><div class="bd">تُشغّل مواقع البحث</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Spiders</div><div class="bd">تبحث عن معلومات جديدة وتحدّث المواقع</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Search Engines</div><div class="bd">تساعد في تحديد موقع معلومات معيّنة</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">Specialized Search Engines</div><div class="bd">تتركّز على مواقع ذات موضوع محدّد</div></div>
+    </div>
+    <h3>معايير تقييم المحتوى (4 معايير)</h3>
+    <p class="lead">ليس كل ما على الإنترنت دقيقًا. قيّم أي معلومة بأربعة معايير:</p>
+    <div class="chiprow">
+      <span class="chip k">Authority — المرجعية/المصداقية</span><span class="chip k">Accuracy — الدقة</span>
+      <span class="chip k">Objectivity — الموضوعية</span><span class="chip k">Currency — الحداثة</span>
+    </div>
+  </div>
+
+  <div class="card c3">
+    <h2><span class="num">6</span> التجارة الإلكترونية والحوسبة السحابية وإنترنت الأشياء</h2>
+
+    <h3>التجارة الإلكترونية (E-commerce)</h3>
+    <p>بيع وشراء السلع عبر الإنترنت. ولها <b>ثلاثة أنواع أساسية</b>:</p>
+    <div class="svgbox">
+      <svg viewBox="0 0 660 230" role="img" aria-label="أنواع التجارة الإلكترونية">
+        <path d="M330 26L560 200H100z" fill="none" stroke="var(--c3)" stroke-width="2.4" stroke-linejoin="round"/>
+        <circle cx="330" cy="26" r="34" fill="rgba(34,211,238,.2)" stroke="var(--c1)" stroke-width="2.2"/>
+        <text x="330" y="33" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c1)">B2C</text>
+        <circle cx="560" cy="200" r="34" fill="rgba(167,139,250,.2)" stroke="var(--c2)" stroke-width="2.2"/>
+        <text x="560" y="207" text-anchor="middle" class="svgtx" font-size="14" fill="var(--c2)">C2C</text>
+        <circle cx="100" cy="200" r="34" fill="rgba(52,211,153,.2)" stroke="var(--ok)" stroke-width="2.2"/>
+        <text x="100" y="207" text-anchor="middle" class="svgtx" font-size="14" fill="var(--ok)">B2B</text>
+
+        <text x="330" y="86" text-anchor="middle" class="svgm">بيع منتج أو خدمة للجمهور العام</text>
+        <text x="330" y="104" text-anchor="middle" class="svgm">الأسرع نموًا · Banking · Trading · Shopping</text>
+        <text x="330" y="122" text-anchor="middle" class="svgm">Amazon.com من أشهر المواقع</text>
+
+        <text x="520" y="252" text-anchor="middle" class="svgm">من فرد إلى فرد</text>
+        <text x="520" y="267" text-anchor="middle" class="svgm">مزادات إلكترونية</text>
+        <text x="130" y="252" text-anchor="middle" class="svgm">من شركة إلى شركة</text>
+        <text x="130" y="267" text-anchor="middle" class="svgm">علاقة مصنّع – مورّد</text>
+      </svg>
+    </div>
+    <table class="tbl">
+      <tr><th>النوع</th><th>المعنى</th><th>تفاصيل</th></tr>
+      <tr><td><b>B2C</b> — Business to Consumer</td><td>بيع منتج أو خدمة للجمهور العام</td><td><b>الأسرع نموًا</b>؛ أشهر تطبيقاته: Online banking · Financial trading · Shopping</td></tr>
+      <tr><td><b>C2C</b> — Consumer to Consumer</td><td>من فرد إلى فرد</td><td>مزادات الويب (Web auctions)؛ نادرًا ما يلتقي البائع والمشتري، والمزايدات تُقدّم إلكترونيًا</td></tr>
+      <tr><td><b>B2B</b> — Business to Business</td><td>بيع منتج أو خدمة من شركة إلى أخرى</td><td>في الأساس علاقة <b>مصنّع – مورّد</b></td></tr>
+    </table>
+
+    <h3>أمن الدفع (Payment Security)</h3>
+    <p>طرق الدفع يجب أن تكون <b>سريعة وموثوقة وآمنة</b> وتوفّر طريقة مريحة لتقديم معلومات المشتري. خياران فقط:</p>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c3)"><div class="bt">Credit Card — بطاقة ائتمان</div><div class="bd">سريعة ومريحة</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">Digital Cash — نقد رقمي</div><div class="bd">مكافئ الإنترنت للنقد التقليدي؛ يُحوَّل إلى عملة حقيقية عبر طرف ثالث</div></div>
+    </div>
+
+    <h3>الحوسبة السحابية (Cloud Computing)</h3>
+    <p>تنقل الأنشطة الحاسوبية من حواسيب المستخدمين إلى <b>حاسوبات على الإنترنت</b>، وتُحرّر المستخدم النهائي من امتلاك البرامج والبيانات وصيانتها وتخزينها. ولها <b>ثلاثة مكوّنات أساسية</b>:</p>
+    <div class="svgbox">
+      <svg viewBox="0 0 660 110" role="img" aria-label="مكونات الحوسبة السحابية">
+        <rect x="470" y="28" width="170" height="56" rx="14" fill="rgba(52,211,153,.17)" stroke="var(--ok)" stroke-width="2"/>
+        <text x="555" y="52" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--ok)">Clients</text>
+        <text x="555" y="71" text-anchor="middle" class="svgm">المستخدمون النهائيون</text>
+
+        <rect x="245" y="28" width="170" height="56" rx="14" fill="rgba(34,211,238,.17)" stroke="var(--c1)" stroke-width="2"/>
+        <text x="330" y="52" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c1)">The Internet</text>
+        <text x="330" y="71" text-anchor="middle" class="svgm">الإنترنت</text>
+
+        <rect x="20" y="28" width="170" height="56" rx="14" fill="rgba(167,139,250,.17)" stroke="var(--c2)" stroke-width="2"/>
+        <text x="105" y="52" text-anchor="middle" class="svgtx" font-size="12.5" fill="var(--c2)">Service Providers</text>
+        <text x="105" y="71" text-anchor="middle" class="svgm">مزوّدو الخدمة</text>
+
+        <path class="flow" d="M470 56h-52" marker-end="url(#ar2)"/><path class="flow" d="M418 62h52" marker-end="url(#ar2)"/>
+        <path class="flow" d="M245 56h-52" marker-end="url(#ar2)"/><path class="flow" d="M193 62h52" marker-end="url(#ar2)"/>
+      </svg>
+    </div>
+
+    <h3>إنترنت الأشياء (IoT)</h3>
+    <p>تطوير مستمر للإنترنت يسمح <b>للأجسام المدمج فيها أجهزة إلكترونية</b> بإرسال واستقبال البيانات — مثل الهواتف الذكية والأجهزة القابلة للارتداء — ويستخدم تطبيقات <b>Web 3.0</b>.</p>
+
+    <h3>وظيفة Webmaster بتفصيل</h3>
+    <div class="chiprow">
+      <span class="chip g">نسخ احتياطي لموقع الشركة</span><span class="chip g">تصميم وتطوير المواقع</span>
+      <span class="chip g">العمل مع قسم التسويق</span><span class="chip g">زيادة زيارات الموقع</span>
+      <span class="chip g">تطوير العروض الترويجية على الويب</span>
+    </div>
+
+    <h3>نظرة إلى المستقبل</h3>
+    <p>لوحة عدادات السيارة تتحوّل إلى جهاز حاسوبي قوي متصل بالإنترنت (ميزات السلامة والتشخيص موجودة بالفعل)، ثم <b>السيارات ذاتية القيادة (Self-driving cars)</b>.</p>
+  </div>
+
+<!-- ==================== لوح 4: المراجعة النهائية ==================== -->
+<section class="panel" id="p-rev">
+
+  <div class="card c3">
+    <h2><span class="num">★</span> التعريفات — اضغط على البطاقة لقلبها</h2>
+    <p class="lead">تسعة مصطلحات أساسية. غطِّ الإجابة بيدك، اقرأ المصطلح، ثم اقلب البطاقة للتحقق.</p>
+    <div class="flipgrid">
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Data<br>البيانات</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">حقائق خام غير معالجة (نصوص، أرقام، صور، أصوات)</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Information<br>المعلومات</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">الناتج من معالجة البيانات</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Software<br>البرمجيات</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">برامج تخبر الحاسوب كيف يعالج البيانات ويحوّلها للشكل المطلوب</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">System Software<br>برمجيات النظام</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">برمجيات يستخدمها الحاسوب: تُمكّن التطبيقات من التفاعل مع المعدات وتدير الموارد</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Application Software<br>برمجيات التطبيقات</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">برمجيات المستخدم النهائي — «البرمجيات التي تستخدمها أنت»</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Connectivity<br>الاتصال</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">مشاركة المعلومات</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Network<br>الشبكة</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">نظام اتصالات يربط جهازين أو أكثر</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">Cloud Computing<br>الحوسبة السحابية</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">حاسوبات على الإنترنت — الوصول إلى موارد أكثر دون امتلاك البرامج أو صيانتها</div>
+      </div></div>
+      <div class="flip"><div class="flipin">
+        <div class="face f1"><div class="t">IoT<br>إنترنت الأشياء</div><div class="hint">اضغط للقلب</div></div>
+        <div class="face f2">تطوير مستمر للإنترنت يسمح لجميع أنواع الأجهزة (بأجهزة إلكترونية مدمجة) بإرسال واستقبال البيانات</div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">⚖</span> المقارنات الحرجة (أكثر ما يأتي في الأسئلة)</h2>
+    <table class="tbl">
+      <tr><th>المقارنة</th><th>الفرق الجوهري</th></tr>
+      <tr><td><b>Data vs Information</b></td><td>حقائق خام غير معالجة ← مقابل ← بيانات تمت معالجتها</td></tr>
+      <tr><td><b>System vs Application Software</b></td><td>دعم الحاسوب وإدارة الموارد ← مقابل ← برمجيات المستخدم النهائي</td></tr>
+      <tr><td><b>General-purpose vs Specialized</b></td><td>واسعة الاستخدام ← مقابل ← أضيق تركيزًا وتخصّصًا</td></tr>
+      <tr><td><b>Memory vs Secondary Storage</b></td><td>مؤقتة، تُفقد بانقطاع الطاقة ← مقابل ← تحتفظ بالبيانات والبرامج دون طاقة</td></tr>
+      <tr><td><b>Input vs Output</b></td><td>تحويل البيانات إلى لغة الحاسوب ← مقابل ← تحويل بيانات الحاسوب إلى معلومات مفهومة</td></tr>
+      <tr><td><b>Internet vs Web</b></td><td>الإنترنت = أكبر شبكة (فيزيائية) ← مقابل ← الويب = واجهة وسائط متعددة لموارد الإنترنت</td></tr>
+      <tr><td><b>Client-based vs Web-based E-mail</b></td><td>يحتاج تثبيت على الحاسوب ← مقابل ← بلا تثبيت، مجاني، من المتصفح</td></tr>
+      <tr><td><b>Webcast vs Podcast</b></td><td>بث مباشر ولا تبقى ملفات ← مقابل ← يجب تنزيل الملف لاستخدامه</td></tr>
+    </table>
+  </div>
+
+  <div class="card c1">
+    <h2><span class="num">?</span> الأسئلة المتوقّعة بإجاباتها النموذجية</h2>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما أجزاء نظام المعلومات الستة؟</div><div class="bd">People, Procedures, Software, Hardware, Data, Internet</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما نوعا البرمجيات الرئيسيان؟</div><div class="bd">System Software و Application Software</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما أنواع برمجيات النظام الثلاثة؟</div><div class="bd">Operating Systems, Utilities, Device Drivers</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما وظائف نظام التشغيل الثلاث؟</div><div class="bd">ينسّق موارد الحاسوب — يوفّر واجهة المستخدم — يشغّل التطبيقات</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">قارن بين General-purpose و Specialized</div><div class="bd">العامة واسعة الاستخدام (متصفح، معالج نصوص)، والمتخصصة أضيق تركيزًا (تأليف الويب)</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما أنواع الحواسيب الشخصية الخمسة؟</div><div class="bd">Desktop, Laptop/Notebook, Tablet, Smartphone, Wearables</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">قارن بين الذاكرة والتخزين الثانوي</div><div class="bd">الذاكرة مؤقتة وتُفقد بانقطاع الطاقة؛ التخزين الثانوي يحتفظ بالبيانات والبرامج حتى مع إيقاف الطاقة</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما Connectivity؟ وما الشبكة؟</div><div class="bd">Connectivity = مشاركة المعلومات؛ والشبكة نظام اتصالات يربط جهازين أو أكثر</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">ما الفرق بين الإنترنت والويب؟</div><div class="bd">الإنترنت أكبر شبكة؛ والويب واجهة وسائط متعددة لمواردها</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">اذكر قوى التكنولوجيا الثلاث</div><div class="bd">Cloud Computing, Wireless Technology, Internet of Things (IoT)</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">اشرح العلاقة بين البيانات والمعلومات</div><div class="bd">البيانات حقائق خام غير معالجة، ومعالجتها تُنتج المعلومات</div></div>
+      <div class="box" style="--acc:var(--c1)"><div class="bt">لماذا برمجيات النظام مهمة؟</div><div class="bd">لأنها تُمكّن التطبيقات من التفاعل مع المعدات وتساعد في إدارة الموارد</div></div>
+    </div>
+  </div>
+
+  <div class="card cp">
+    <h2><span class="num">A</span> اختبار الاختيار من متعدد — 7 أسئلة</h2>
+    <div class="quizhead">
+      <span class="lead" style="margin:0">اختر الإجابة — سيظهر التصحيح والشرح فورًا.</span>
+      <span class="score" data-scope="mcq">0 / 0</span>
+    </div>
+    <div class="quiz" data-q="mcq" data-answers="1,1,0,1,2,1,1">
+      <div class="q"><div class="qt">1) ما الجزء الأهم في أي نظام؟</div>
+        <div class="opts"><button class="opt">أ) المعدات</button><button class="opt">ب) الناس</button><button class="opt">ج) البيانات</button><button class="opt">د) البرمجيات</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ب — الناس (People)</b>، وُصِفوا صراحةً بأنهم الجزء الأهم.</div></div>
+      <div class="q"><div class="qt">2) أي برمجية تُمكّن برمجيات التطبيقات من التفاعل مع المعدات؟</div>
+        <div class="opts"><button class="opt">أ) برمجيات التطبيقات</button><button class="opt">ب) برمجيات النظام</button><button class="opt">ج) قاعدة البيانات</button><button class="opt">د) العرض التقديمي</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ب — System Software</b>، وهذا دورها المنصوص عليه.</div></div>
+      <div class="q"><div class="qt">3) أي مما يلي يُعد تطبيقًا عام الغرض؟</div>
+        <div class="opts"><button class="opt">أ) المتصفح</button><button class="opt">ب) تأليف الويب</button><button class="opt">ج) المودم</button><button class="opt">د) مضاد الفيروسات</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>أ — Browser</b>، المتصفحات مذكورة كتطبيقات عامة الغرض.</div></div>
+      <div class="q"><div class="qt">4) أي نوع من التخزين ليس له أجزاء متحركة؟</div>
+        <div class="opts"><button class="opt">أ) القرص الضوئي</button><button class="opt">ب) التخزين الصلب</button><button class="opt">ج) لوحة المفاتيح</button><button class="opt">د) الطابعة</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ب — Solid-state storage</b>، والمحاضرة تنصّ على ذلك صراحةً.</div></div>
+      <div class="q"><div class="qt">5) أي جهاز يترجم البيانات إلى لغة الحاسوب؟</div>
+        <div class="opts"><button class="opt">أ) الطابعة</button><button class="opt">ب) الشاشة</button><button class="opt">ج) لوحة المفاتيح</button><button class="opt">د) المونيتور</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ج — Keyboard</b>، فهي جهاز إدخال.</div></div>
+      <div class="q"><div class="qt">6) ماذا تعني Connectivity؟</div>
+        <div class="opts"><button class="opt">أ) الطباعة</button><button class="opt">ب) مشاركة المعلومات</button><button class="opt">ج) البرمجة</button><button class="opt">د) تخزين البيانات</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ب — مشاركة المعلومات</b>.</div></div>
+      <div class="q"><div class="qt">7) ما هي أكبر شبكة؟</div>
+        <div class="opts"><button class="opt">أ) الويب</button><button class="opt">ب) الإنترنت</button><button class="opt">ج) قاعدة البيانات</button><button class="opt">د) العرض التقديمي</button></div>
+        <div class="fb">الإجابة الصحيحة: <b>ب — الإنترنت</b>، فهو أكبر شبكة.</div></div>
+    </div>
+    <button class="reset" data-reset="mcq">إعادة هذا الاختبار</button>
+  </div>
+
+  <div class="card c2">
+    <h2><span class="num">T/F</span> اختبار صح/خطأ — الفصل الأول (8 عبارات)</h2>
+    <div class="quizhead">
+      <span class="lead" style="margin:0">انتبه للعبارتين الخطأ — هما فخّ الامتحان.</span>
+      <span class="score" data-scope="tf1">0 / 0</span>
+    </div>
+    <div class="quiz" data-q="tf1" data-answers="0,1,0,0,0,1,0,0">
+      <div class="q"><div class="qt">1) وحدة النظام تضم معظم المكونات الإلكترونية المكوّنة لنظام الحاسوب.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — منصوص عليها مباشرة.</div></div>
+      <div class="q"><div class="qt">2) أجهزة الإخراج هي التي تترجم البيانات إلى لغة الحاسوب.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">خطأ ✗ — <b>أجهزة الإدخال</b> هي التي تترجم البيانات إلى لغة الحاسوب.</div></div>
+      <div class="q"><div class="qt">3) الذاكرة تخزين مؤقت وتُفقد محتوياتها عند انقطاع الكهرباء.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — منصوص عليها مباشرة.</div></div>
+      <div class="q"><div class="qt">4) هناك نوعان رئيسيان من البرمجيات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — برمجيات النظام وبرمجيات التطبيقات.</div></div>
+      <div class="q"><div class="qt">5) الإنترنت هو أكبر شبكة.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — منصوص عليها مباشرة.</div></div>
+      <div class="q"><div class="qt">6) التطبيقات المتخصصة هي برامج واسعة الاستخدام.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">خطأ ✗ — واسعة الاستخدام هي <b>عامة الغرض</b>، أما المتخصصة فأضيق تركيزًا.</div></div>
+      <div class="q"><div class="qt">7) الأقراص الضوئية تستخدم تقنية الليزر.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — CD و DVD و Blu-ray.</div></div>
+      <div class="q"><div class="qt">8) الحوسبة السحابية توفّر الوصول إلى موارد أكثر.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — منصوص عليها مباشرة.</div></div>
+    </div>
+    <button class="reset" data-reset="tf1">إعادة هذا الاختبار</button>
+  </div>
+
+  <div class="card c1">
+    <h2><span class="num">T/F</span> اختبار صح/خطأ — الفصل الثاني (10 عبارات)</h2>
+    <div class="quizhead">
+      <span class="lead" style="margin:0">الاختبار الذاتي الرسمي من نهاية محاضرة الفصل الثاني.</span>
+      <span class="score" data-scope="tf2">0 / 0</span>
+    </div>
+    <div class="quiz" data-q="tf2" data-answers="0,0,0,0,0,0,0,0,0,0">
+      <div class="q"><div class="qt">1) Google Chrome و Mozilla Firefox من المتصفحات الشائعة.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — من متصفحات الويب الشهيرة.</div></div>
+      <div class="q"><div class="qt">2) Uniform Resource Locator يمثّل موقع أو عنوان مورد على الإنترنت.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — URL = عنوان المورد.</div></div>
+      <div class="q"><div class="qt">3) المرشّحات (Filters) تحجب الوصول لمواقع محدّدة وتستطيع وضع حدود زمنية للإنترنت.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — من وظائفها.</div></div>
+      <div class="q"><div class="qt">4) خدمات نقل الملفات عبر الويب تستخدم متصفح الويب لرفع وتنزيل الملفات.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Web-based file transfer services.</div></div>
+      <div class="q"><div class="qt">5) حزم أمن الإنترنت (Internet Security Suites) مجموعة برامج للحفاظ على أمنك وخصوصيتك على الويب.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — تعريف صحيح.</div></div>
+      <div class="q"><div class="qt">6) التواصل هو النشاط الأكثر شيوعًا على الإنترنت.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — Communication is the most popular Internet activity.</div></div>
+      <div class="q"><div class="qt">7) البريد المعتمد على العميل (Client-based) يجب تثبيته على الحاسوب.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — مثل Outlook و Apple Mail.</div></div>
+      <div class="q"><div class="qt">8) البريد المعتمد على الويب (Web-based) لا يحتاج تثبيت برامج وهو مجاني.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — مثل Gmail و Hotmail و Yahoo.</div></div>
+      <div class="q"><div class="qt">9) التواصل الاجتماعي يربط الناس والمؤسسات التي تشارك اهتمامًا أو نشاطًا مشتركًا.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — تعريف Social Networking.</div></div>
+      <div class="q"><div class="qt">10) LinkedIn مثال على موقع تواصل اجتماعي موجّه للأعمال.</div>
+        <div class="opts"><button class="opt">صح</button><button class="opt">خطأ</button></div>
+        <div class="fb">صحيح ✓ — business-oriented social networking.</div></div>
+    </div>
+    <button class="reset" data-reset="tf2">إعادة هذا الاختبار</button>
+  </div>
+
+  <div class="card c3">
+    <h2><span class="num">★</span> خطة المراجعة في 6 خطوات (ترتيب الفهم)</h2>
+    <div class="grid g2">
+      <div class="box" style="--acc:var(--c3)"><div class="bt">١. أجزاء نظام المعلومات الستة</div><div class="bd">ابدأ من هنا — كل الفصل الأول يُبنى عليها (الناس أولًا وأهم).</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٢. البرمجيات: نظام ← تطبيقات</div><div class="bd">احفظ الشجرة: 3 أنواع نظام + 3 أنواع تطبيقات، ثم وظائف OS الثلاث.</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٣. المعدات: حواسيب ← مكونات</div><div class="bd">4 أنواع حواسيب، 5 أنواع PC، 4 فئات معدات، ثم الذاكرة مقابل التخزين الثانوي.</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٤. الإنترنت ← الويب</div><div class="bd">1969 ARPANET و1991 WWW، أجيال الويب، ISP، URL، TLD، HTML.</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٥. التواصل والتجارة</div><div class="bd">Blogs/Microblogs/Webcast/Podcast/Wiki، البريد وأنواعه، ثم B2C/C2C/B2B.</div></div>
+      <div class="box" style="--acc:var(--c3)"><div class="bt">٦. اختبر نفسك</div><div class="bd">أعد الاختبارات الثلاثة حتى تصل إلى الدرجة الكاملة بلا أخطاء.</div></div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /wrap -->
+
+<footer>
+  ملخص مقدمة في تكنولوجيا المعلومات — الفصل الأول + الفصل الثاني + مراجعة ١ · العام الجامعي 2025/2026<br>
+  المصدر: O'Leary, O'Leary &amp; O'Leary (2023) — Computing Essentials: Making IT Work for You, McGraw-Hill.
+</footer>
+
+<script>
+(function(){
+  var root=document.body;
+  root.classList.add('js');
+
+  /* ---- فقاعات الخلفية ---- */
+  for(var i=0;i<16;i++){
+    var b=document.createElement('div'); b.className='bub';
+    var s=6+Math.random()*18;
+    b.style.width=s+'px'; b.style.height=s+'px';
+    b.style.left=(Math.random()*100)+'vw';
+    b.style.animationDuration=(11+Math.random()*14)+'s';
+    b.style.animationDelay=(-Math.random()*20)+'s';
+    document.body.appendChild(b);
+  }
+
+  /* ---- شريط التقدم ---- */
+  var bar=document.getElementById('bar');
+  function prog(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0?(window.pageYOffset/h*100):0)+'%';
+  }
+  window.addEventListener('scroll',prog,{passive:true}); window.addEventListener('resize',prog); prog();
+
+  /* ---- الأصوات ---- */
+  var sndOn=false, ac=null;
+  function blip(f,d){
+    if(!sndOn) return;
+    try{
+      ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+      var o=ac.createOscillator(), g=ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.type='sine'; o.frequency.value=f;
+      g.gain.setValueAtTime(.06,ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);
+      o.start(); o.stop(ac.currentTime+d);
+    }catch(e){}
+  }
+  var soundBtn=document.getElementById('soundBtn');
+  soundBtn.addEventListener('click',function(){
+    sndOn=!sndOn;
+    soundBtn.textContent=sndOn?'◉':'◌';
+    soundBtn.style.color=sndOn?'var(--c1)':'';
+    soundBtn.title=sndOn?'الأصوات مفتوحة':'الأصوات مغلقة';
+    blip(660,.12);
+  });
+
+  /* ---- تبديل الوضع الليلي/النهاري ---- */
+  var themeBtn=document.getElementById('themeBtn');
+  themeBtn.addEventListener('click',function(){
+    root.classList.toggle('light');
+    var l=root.classList.contains('light');
+    themeBtn.textContent=l?'☀':'☾';
+    blip(l?900:520,.1);
+  });
+  document.getElementById('printBtn').addEventListener('click',function(){ window.print(); });
+
+  /* ---- التبويبات ---- */
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  var panels={};
+  [].slice.call(document.querySelectorAll('.panel')).forEach(function(p){ panels[p.id.replace('p-','')]=p; });
+  function show(k){
+    for(var key in panels) panels[key].classList.toggle('on',key===k);
+    tabs.forEach(function(t){ t.classList.toggle('on',t.dataset.t===k); });
+    window.scrollTo({top:0,behavior:'smooth'});
+    prog();
+  }
+  tabs.forEach(function(t){ t.addEventListener('click',function(){ show(t.dataset.t); blip(520,.08); }); });
+
+  /* ---- الاختبارات ---- */
+  var wrongFirst={};
+  function grade(qEl){
+    var ans=(qEl.dataset.answers||'').split(',').map(function(x){return parseInt(x,10);});
+    var qs=[].slice.call(qEl.querySelectorAll('.q'));
+    var total=0, right=0;
+    qs.forEach(function(q,i){
+      var opts=[].slice.call(q.querySelectorAll('.opt'));
+      var correct=ans[i]||0;
+      opts.forEach(function(o,j){
+        o.addEventListener('click',function(){
+          if(q.dataset.done) return;
+          q.dataset.done='1';
+          total++;
+          if(j===correct){ right++; q.classList.add('ok'); blip(880,.15); }
+          else{
+            q.classList.add('no'); blip(240,.2);
+            if(!wrongFirst[qEl.dataset.q]){ wrongFirst[qEl.dataset.q]=1; }
+          }
+          opts.forEach(function(x,k){
+            x.disabled=true;
+            if(k===correct) x.classList.add('good');
+            else if(k===j) x.classList.add('bad');
+          });
+          var fb=q.querySelector('.fb'); if(fb) fb.classList.add('show');
+          var sc=document.querySelector('.score[data-scope="'+qEl.dataset.q+'"]');
+          if(sc){
+            var nt=parseInt(sc.dataset.t||'0',10)+1;
+            var nr=parseInt(sc.dataset.r||'0',10)+(j===correct?1:0);
+            sc.dataset.t=nt; sc.dataset.r=nr;
+            sc.textContent=nr+' / '+nt;
+            if(nr===qs.length){ sc.textContent='الدرجة الكاملة '+nr+' / '+nt+' ★'; }
+          }
+        });
+      });
+    });
+  }
+  [].slice.call(document.querySelectorAll('.quiz')).forEach(grade);
+
+  /* ---- إعادة الاختبار ---- */
+  [].slice.call(document.querySelectorAll('.reset')).forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var el=document.querySelector('.quiz[data-q="'+btn.dataset.reset+'"]');
+      if(!el) return;
+      [].slice.call(el.querySelectorAll('.q')).forEach(function(q){
+        q.removeAttribute('data-done'); q.classList.remove('ok','no');
+        [].slice.call(q.querySelectorAll('.opt')).forEach(function(o){ o.disabled=false; o.classList.remove('good','bad'); });
+        var fb=q.querySelector('.fb'); if(fb) fb.classList.remove('show');
+      });
+      var sc=document.querySelector('.score[data-scope="'+btn.dataset.reset+'"]');
+      if(sc){ sc.dataset.t='0'; sc.dataset.r='0'; sc.textContent='0 / 0'; }
+      blip(420,.12);
+    });
+  });
+
+  /* ---- بطاقات التعريف ---- */
+  [].slice.call(document.querySelectorAll('.flip')).forEach(function(f){
+    f.addEventListener('click',function(){ f.classList.toggle('f'); blip(600,.08); });
+  });
+
+  /* ---- لوحة المفاتيح: 1..4 للتبويبات ---- */
+  document.addEventListener('keydown',function(e){
+    var n=parseInt(e.key,10);
+    if(n>=1&&n<=tabs.length){ tabs[n-1].click(); }
+  });
+})();
+</script>
+</body>
+</html>
